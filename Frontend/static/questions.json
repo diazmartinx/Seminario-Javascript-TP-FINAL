@@ -1,0 +1,132 @@
+{
+	"questions": [
+		{
+			"question": "¿Qué es JavaScript?",
+			"options": ["Un lenguaje de programación", "Un editor de texto", "Un sistema operativo"],
+			"answer": "Un lenguaje de programación"
+		},
+		{
+			"question": "¿Cómo se declara una variable en JavaScript?",
+			"options": ["var nombreVariable", "variable nombreVariable", "declare nombreVariable"],
+			"answer": "var nombreVariable"
+		},
+		{
+			"question": "¿Cómo se crea una función en JavaScript?",
+			"options": [
+				"function miFuncion() {}",
+				"create function miFuncion() {}",
+				"function: miFuncion() {}"
+			],
+			"answer": "function miFuncion() {}"
+		},
+		{
+			"question": "¿Cómo se llama la característica de JavaScript que permite tratar funciones como objetos?",
+			"options": ["Polimorfismo", "Herencia", "Funciones de primera clase"],
+			"answer": "Funciones de primera clase"
+		},
+		{
+			"question": "¿Qué método se utiliza para agregar un elemento al final de un array en JavaScript?",
+			"options": ["push()", "pop()", "shift()"],
+			"answer": "push()"
+		},
+		{
+			"question": "¿Cómo se puede convertir una cadena de texto a un número en JavaScript?",
+			"options": ["toNumber()", "parseInt()", "stringToNumber()"],
+			"answer": "parseInt()"
+		},
+		{
+			"question": "¿Qué operador se utiliza para comparar la igualdad de valor y tipo en JavaScript?",
+			"options": ["==", "===", "equals()"],
+			"answer": "==="
+		},
+		{
+			"question": "¿Cómo se puede recorrer un array en JavaScript?",
+			"options": ["Usando un bucle for", "Usando un bucle while", "Ambas son correctas"],
+			"answer": "Ambas son correctas"
+		},
+		{
+			"question": "¿Qué es un callback en JavaScript?",
+			"options": [
+				"Una función que se pasa a otra función como argumento",
+				"Una función que se llama después de un evento",
+				"Una función que se ejecuta en segundo plano"
+			],
+			"answer": "Una función que se pasa a otra función como argumento"
+		},
+		{
+			"question": "¿Qué es 'this' en JavaScript?",
+			"options": [
+				"Una variable que almacena el valor actual",
+				"Una referencia al objeto en el que se encuentra la función",
+				"Una palabra clave para definir variables"
+			],
+			"answer": "Una referencia al objeto en el que se encuentra la función"
+		},
+		{
+			"question": "¿Cómo se puede definir un objeto en JavaScript?",
+			"options": ["var objeto = {}", "var objeto = Object()", "Ambas son correctas"],
+			"answer": "Ambas son correctas"
+		},
+		{
+			"question": "¿Cómo se puede agregar una propiedad a un objeto existente en JavaScript?",
+			"options": [
+				"objeto.nuevaPropiedad = valor",
+				"objeto.add(nuevaPropiedad, valor)",
+				"objeto(nuevaPropiedad) = valor"
+			],
+			"answer": "objeto.nuevaPropiedad = valor"
+		},
+		{
+			"question": "¿Cómo se puede eliminar una propiedad de un objeto en JavaScript?",
+			"options": [
+				"delete objeto.propiedad",
+				"objeto.remove(propiedad)",
+				"objeto.delete(propiedad)"
+			],
+			"answer": "delete objeto.propiedad"
+		},
+		{
+			"question": "¿Cómo se puede crear una clase en JavaScript?",
+			"options": ["class MiClase {}", "create class MiClase {}", "new class MiClase {}"],
+			"answer": "class MiClase {}"
+		},
+		{
+			"question": "¿Cómo se puede crear una instancia de una clase en JavaScript?",
+			"options": [
+				"var instancia = new MiClase()",
+				"var instancia = MiClase.create()",
+				"var instancia = MiClase.instance()"
+			],
+			"answer": "var instancia = new MiClase()"
+		},
+		{
+			"question": "¿Cómo se puede manejar errores en JavaScript?",
+			"options": ["Usando try/catch", "Usando if/else", "Usando for/while"],
+			"answer": "Usando try/catch"
+		},
+		{
+			"question": "¿Cómo se puede detener la ejecución de un bucle en JavaScript?",
+			"options": ["Usando break", "Usando stop", "Usando exit"],
+			"answer": "Usando break"
+		},
+		{
+			"question": "¿Cómo se puede saltar a la siguiente iteración de un bucle en JavaScript?",
+			"options": ["Usando continue", "Usando next", "Usando skip"],
+			"answer": "Usando continue"
+		},
+		{
+			"question": "¿Cómo se puede definir una constante en JavaScript?",
+			"options": [
+				"const miConstante = valor",
+				"var const miConstante = valor",
+				"constant miConstante = valor"
+			],
+			"answer": "const miConstante = valor"
+		},
+		{
+			"question": "¿Cómo se puede concatenar cadenas de texto en JavaScript?",
+			"options": ["Usando +", "Usando .concat()", "Ambas son correctas"],
+			"answer": "Ambas son correctas"
+		}
+	]
+}

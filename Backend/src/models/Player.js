@@ -1,9 +1,11 @@
-class Player{
-    constructor(id, name, color){
-        this.id = id;
-        this.name = name;
-        this.color = color;
-    }
+import { generateRandomId } from "../utils/utils";
+
+class Player {
+  constructor(name, color) {
+    this.id = generateRandomId();
+    this.name = name;
+    this.color = color;
+  }
 }
 
 export default Player;

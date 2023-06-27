@@ -1,30 +1,32 @@
 import { Router } from "express";
+import gameController from "../controllers/GameControllers.js";
+import getGameMiddleware from "../middlewares/getGameMiddleware.js";
 
-const router = Router();
+const game = Router();
+
+// Middleware for all routes related to a game
+game.use("/:id", getGameMiddleware);
 
 //create game
-router.post("/game", (req, res) => {
-  res.send("create game");
-});
+game.post("/", gameController.createGame);
 
 //get game by id
-router.get("/game/:id", (req, res) => {
-  res.send("get game by id");
-});
+game.get("/:id", gameController.getGameById);
+
+//list games
+game.get("/", gameController.listGames);
 
 //roll dice and get random question
-router.get("/game/:id/roll", (req, res) => {
-    res.send("roll dice and get random question");
-});
+game.get("/:id/roll", gameController.rollDice);
 
 //get random question
-router.get("/game/:id/question", (req, res) => {
+game.get("/:id/question", (req, res) => {
   res.send("get random question");
 });
 
 //answer question
-router.post("/game/:id/question/:id/answer", (req, res) => {
+game.post("/:id/question/:id/answer", (req, res) => {
   res.send("answer question");
 });
 
-export default router;
+export default game;

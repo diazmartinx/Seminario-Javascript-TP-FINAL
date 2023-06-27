@@ -3,9 +3,8 @@ import morgan from "morgan";
 import helmet from "helmet";
 import dotenv from "dotenv";
 import config from "./config.js";
-//import usuariosRoutes from "./routes/usuarios";
-//import productosRoutes from "./routes/productos";
-import errorMiddleware from "./middlewares/errorMiddleware";
+import game from "./routes/GameRoutes.js";
+import errorMiddleware from "./middlewares/errorMiddleware.js";
 
 // Cargar variables de entorno desde el archivo .env
 dotenv.config();
@@ -17,8 +16,7 @@ app.use(morgan("dev"));
 app.use(helmet());
 
 // Configurar las rutas de la API
-//app.use("/api/usuarios", usuariosRoutes);
-//app.use("/api/productos", productosRoutes);
+app.use("/api/game", game);
 
 // Middleware de manejo de errores
 app.use(errorMiddleware);

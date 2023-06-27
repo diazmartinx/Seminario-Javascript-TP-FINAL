@@ -18,7 +18,7 @@ app.use(helmet());
 // Configurar las rutas de la API
 app.use("/api/game", game);
 
-// Middleware de manejo de errores
+// Middleware de manejo de errores, siempre debe ir al final de las rutas
 app.use(errorMiddleware);
 
 // Puerto del servidor

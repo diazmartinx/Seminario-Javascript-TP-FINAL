@@ -31,12 +31,7 @@ class Game {
     this.diceNumber = 0;
   }
 
-
-  rollDice(playerId) {
-    if (playerId != this.playerIdTurn) {
-      throw new Error("Not your turn");
-    }
-
+  rollDice() {
     this.diceNumber = Math.floor(Math.random() * 6) + 1;
     const data = {
       diceNumber: this.diceNumber,
@@ -52,6 +47,30 @@ class Game {
     this.askedQuestions.push(question);
     this.questions.splice(randomIndex, 1);
     return question;
+  }
+
+  answerQuestion(questionId, answerIndex) {
+    const question = this.askedQuestions.find((q) => q.id == questionId);
+    const isCorrect = question.answer == answerIndex;
+    const data = {
+      isCorrect,
+      player1: this.player1,
+      player2: this.player2,
+    };
+    if (isCorrect) {
+      this._movePlayer();
+    } else {
+      this._changeTurn();
+    }
+    return data;
+  }
+
+  _movePlayer() {}
+
+  _changeTurn() {
+    this.turn++;
+    // if turn is even, it's player 2 turn, otherwise it's player 1 turn
+    this.playerIdTurn = this.turn % 2 == 0 ? this.player2.id : this.player1.id;
   }
 }
 

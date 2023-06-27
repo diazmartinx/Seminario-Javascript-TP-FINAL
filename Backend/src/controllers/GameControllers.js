@@ -16,12 +16,24 @@ function getGameById(req, res) {
   res.status(200).json(req.game);
 }
 
+// PLAYER MOVES -------------------------------------------
+// Game is passed by middleware -> getGameMiddleware
+// Player turn is verified by middleware -> isPlayerTurnMiddleware
+// Game and Player are already verified
+
 function rollDice(req, res) {
-  const game = req.game;
-  const playerId = req.query.playerId;
-  let data = game.rollDice(playerId);
+  const { game } = req;
+  let data = game.rollDice();
   delete data.question.answer;
   res.status(200).json(data);
 }
 
-export default { createGame, getGameById, listGames, rollDice };
+function answerQuestion(req, res) {
+  const { game } = req;
+  const questionId = req.body.questionId;
+  const answerIndex = req.body.answerIndex;
+  let data = game.answerQuestion(questionId, answerIndex);
+  res.status(200).json(data);
+}
+
+export default { createGame, getGameById, listGames, rollDice, answerQuestion };

@@ -1,48 +1,40 @@
 <script lang="ts">
+    import { goto } from "$app/navigation";
 
-	let player1 = "";
-	let player2 = "";
-	$: valid = (player1.length > 2 && player2.length > 2 && player1 !== player2);
+    const API_URL = "http://localhost:3000/api";
+
+async function createLobby() {
+    await fetch(`${API_URL}/lobby`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+        .then((res) => res.json())
+        .then((res) => {
+            console.log(res);
+            goto(`/${res.id}`);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+
+
+}
 
 </script>
-<main class="h-screen grid grid-cols-[1fr,0.5fr,1fr] justify-center items-center">
-	<div class="m-auto">
-			<div>
-				<label for="player1" class="text-4xl font-semibold">Jugador 1</label>
-				<input
-					type="text"
-					name="player1"
-					id="player1"
-					placeholder="Nombre.."
-					class="input p-2 my-5"
-					bind:value={player1}
-					minlength="2"
-				/>
-			</div>
-	</div>
 
-	<div class="m-auto">
-		<form action="" method="POST">
-			<button disabled={!valid} class="btn btn-xl variant-filled-primary">¡Empezar Partida!</button>
-		</form>
-		<ul>
-			<li></li>
-		</ul>
-		
-	</div>
+<main>
 
-	<div class="m-auto">
-			<div>
-				<label for="player2" class="text-4xl font-semibold">Jugador 2</label>
-				<input
-					type="text"
-					name="player2"
-					id="player2"
-					placeholder="Nombre.."
-					class="input my-5"
-					bind:value={player2}
-					minlength="2"
-				/>
-			</div>
-	</div>
+    <section>
+        <button class="btn btn-xl variant-filled-primary" on:click={createLobby}>EMPEZAR JUEGO</button>
+    </section>
+
+    <section class="p-10">
+        <p>Unirse a una partida existente</p>
+        <label for="">Codigo de partida:</label>
+        <input type="text">
+        <button class="btn btn-lg variant-filled-secondary">Entrar</button>
+    </section>
+
 </main>

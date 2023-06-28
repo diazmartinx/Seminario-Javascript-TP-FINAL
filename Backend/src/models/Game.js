@@ -15,6 +15,14 @@ class Game {
     this.player1 = new Player(player1.name, player1.color);
     this.player2 = new Player(player2.name, player2.color);
 
+    
+
+    this.board = new Board(this.questions.length, 0, 0);
+    this.turn = 1;
+    this.playerIdTurn = this.player1.id;
+    this.diceNumber = 0;
+    
+    this.askedQuestions = [];
     this.questions = questions.map((question) => {
       return new Question(
         question.id,
@@ -23,12 +31,7 @@ class Game {
         question.answer
       );
     });
-    this.askedQuestions = [];
-
-    this.board = new Board(this.questions.length, 0, 0);
-    this.turn = 1;
-    this.playerIdTurn = this.player1.id;
-    this.diceNumber = 0;
+    
   }
 
   rollDice() {

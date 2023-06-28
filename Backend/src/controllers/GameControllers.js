@@ -1,14 +1,15 @@
 import Game from "../models/Game.js";
-import games from "../data/games.js";
+import { db } from "../data/db.js";
 
 function createGame(req, res) {
   const { player1, player2 } = req.body;
   const game = new Game(player1, player2);
-  games.push(game);
+  db.createGame(game);
   res.status(201).json(game);
 }
 
-function listGames(req, res) {
+async function listGames(req, res) {
+  const games = await db.getGames();
   res.status(200).json(games);
 }
 

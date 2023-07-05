@@ -8,19 +8,31 @@ const questions = JSON.parse(
   fs.readFileSync("./src/data/questions.json", "utf8")
 );
 
+import dbClient from "../data/db.js";
+
+const GAMESTATUS =  {
+  LOBBY: 'LOBBY',
+  STARTED: 'STARTED',
+}
+
 class Game {
-  constructor(player1, player2) {
-    this.id = generateRandomId();
+  constructor({id, status, player1, player2, board, turn, playerIdTurn, diceNumber, askedQuestions, questions}) {
+    this.id = id;
+    this.status = status  || GAMESTATUS.LOBBY;
+    
+    this.player1 =  player1 ? new Player(player1.name,player1.color) : null;
+    this.player2 =  player2 ? new Player(player2.name,player2.color) : null;
 
-    this.player1 = new Player(player1.name, player1.color);
-    this.player2 = new Player(player2.name, player2.color);
+    this.board =  board ? new Board(board.size, board.player1Position, board.player2Position) : null;
 
-    this.board = new Board(this.questions.length, 0, 0);
-    this.turn = 1;
-    this.playerIdTurn = this.player1.id;
-    this.diceNumber = 0;
+    this.turn = turn || 0;
 
-    this.askedQuestions = [];
+    this.playerIdTurn = playerIdTurn || null;
+
+    this.diceNumber = diceNumber || 0;
+
+    this.askedQuestions = askedQuestions || [];
+
     this.questions = questions.map((question) => {
       return new Question(
         question.id,
@@ -30,6 +42,46 @@ class Game {
       );
     });
   }
+
+  static async getGameById(id){
+    const game = await dbClient.getGameById(id);
+    return new Game(game);
+  }
+
+  static async create(game){
+    await dbClient.createGame(game);
+    return game;
+  }
+
+  async save(){
+    await dbClient.updateGame(this);
+  }
+
+  joinGame(player) {
+    if (this.status !== GAMESTATUS.LOBBY) {
+      throw new Error("Game already started");
+    } else if (this.status === GAMESTATUS.STARTED) {
+      throw new Error("Game is full");
+    } else {
+      if (!this.player1) {
+        this.player1 = player;
+      } else {
+        this.player2 = player;
+      }
+      if (this.player1 && this.player2) {
+        this.status = GAMESTATUS.STARTED;
+    }
+    }
+  }
+
+  startGame() {
+    this.board = new Board(this.questions.length, 0, 0);
+    this.turn = 1;
+    this.playerIdTurn = this.player1.id;
+    this.diceNumber = 0;
+    this.askedQuestions = [];
+  }
+
 
   rollDice() {
     this.diceNumber = Math.floor(Math.random() * 6) + 1;
@@ -49,29 +101,59 @@ class Game {
     return question;
   }
 
-  answerQuestion(questionId, answerIndex) {
-    const question = this.askedQuestions.find((q) => q.id == questionId);
+  answerQuestion(answerIndex) {
+    const question = this.askedQuestions[this.askedQuestions.length - 1];
     const isCorrect = question.answer == answerIndex;
-    const data = {
-      isCorrect,
-      player1: this.player1,
-      player2: this.player2,
-    };
+
     if (isCorrect) {
       this._movePlayer();
+      return true;
+    } else {
+      this._changeTurn();
+      return false;
+    }
+  }
+
+  _movePlayer() {
+    const player = this._getPlayerById(this.playerIdTurn);
+    player.move(this.diceNumber);
+    if (player.position >= this.board.size) {
+      this.status = GAMESTATUS.FINISHED;
     } else {
       this._changeTurn();
     }
-    return data;
   }
-
-  _movePlayer() {}
+  
 
   _changeTurn() {
     this.turn++;
     // if turn is even, it's player 2 turn, otherwise it's player 1 turn
     this.playerIdTurn = this.turn % 2 == 0 ? this.player2.id : this.player1.id;
   }
+
+  _getPlayerById(playerId) {
+    if (this.player1.id == playerId) {
+      return this.player1;
+    } else if (this.player2.id == playerId) {
+      return this.player2;
+    } else {
+      return null;
+    }
+  }
+
+  getPlayerStatus(playerId) {
+    const player = this._getPlayerById(playerId);
+    const data = {
+      player,
+      turn: this.turn,
+      diceNumber: this.diceNumber,
+      board: this.board,
+      isMyTurn: this.playerIdTurn == playerId,
+      actualQuestion: this.askedQuestions[this.askedQuestions.length - 1],
+    };
+    return data;
+  }    
 }
 
 export default Game;
+

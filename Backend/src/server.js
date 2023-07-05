@@ -5,7 +5,6 @@ import dotenv from "dotenv";
 import cors from "cors";
 import config from "./config.js";
 import game from "./routes/gameRoutes.js";
-import lobby from "./routes/lobbyRoutes.js";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
 
 // Cargar variables de entorno desde el archivo .env
@@ -20,7 +19,7 @@ app.use(cors());
 
 // Configurar las rutas de la API
 app.use("/api/game", game);
-app.use("/api/lobby", lobby);
+
 
 // Middleware de manejo de errores, siempre debe ir al final de las rutas
 app.use(errorMiddleware);

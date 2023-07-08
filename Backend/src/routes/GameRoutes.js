@@ -8,15 +8,16 @@ const game = Router();
 // Middleware for all routes related to a game
 // Verify if game exists
 game.use("/:id", getGameMiddleware);
-// Verify if it's the player's turn
+// // Verify if it's the player's turn
 game.use("/:id/:playerId", isPlayerTurnMiddleware);
-// -------------------------------------------
-
-//create game Lobby
-
+// // -------------------------------------------
 
 //create game
 game.post("/", gameController.createGame);
+
+
+//join game
+game.post("/:id/join", gameController.joinGame);
 
 //get game by id
 game.get("/:id", gameController.getGameById);
@@ -24,8 +25,12 @@ game.get("/:id", gameController.getGameById);
 //list games
 game.get("/", gameController.listGames);
 
+
 // PLAYER MOVES -------------------------------------------
 //roll dice and get random question
+
+game.get("/:id/status/:playerId", gameController.getPlayerStatus);
+
 game.get("/:id/:playerId/roll", gameController.rollDice);
 
 //answer question

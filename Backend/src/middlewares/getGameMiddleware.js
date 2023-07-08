@@ -1,13 +1,15 @@
 import { db } from "../data/db.js";
+import Game from "../models/Game.js";
 
 async function getGameMiddleware(req, res, next) {
   const { id } = req.params;
-  const game = await db.getGameById(id);
-  console.log("game", game);
+  const game = await Game.getGameById(id);
 
   if (!game) {
     res.status(404).json({ message: "Game not found" });
-  } else {
+  }
+  
+  else {
     req.game = game;
     next();
   }

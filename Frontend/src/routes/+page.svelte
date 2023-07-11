@@ -1,23 +1,14 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
+    import { PUBLIC_API_URL } from "$env/static/public";
+    import { createGame } from "$lib/Client";
 
-    const API_URL = "http://localhost:3000/api";
 
-async function createLobby() {
-    await fetch(`${API_URL}/lobby`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        }
-    })
-        .then((res) => res.json())
-        .then((res) => {
-            console.log(res);
-            goto(`/${res.id}`);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+
+async function submit() {
+
+    const game = await createGame();
+    goto(`${game.id}`)
 
 
 }
@@ -27,7 +18,7 @@ async function createLobby() {
 <main>
 
     <section>
-        <button class="btn btn-xl variant-filled-primary" on:click={createLobby}>EMPEZAR JUEGO</button>
+        <button class="btn btn-xl variant-filled-primary" on:click={submit}>EMPEZAR JUEGO</button>
     </section>
 
     <section class="p-10">

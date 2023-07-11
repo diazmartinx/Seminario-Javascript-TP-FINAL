@@ -1,8 +1,8 @@
 class Board{
-    constructor(totalCells, player1Position, player2Position){
+    constructor(totalCells, player1, player2){
         this.totalCells = totalCells;
-        this.player1Position = player1Position;
-        this.player2Position = player2Position;
+        this.player1 = player1;
+        this.player2 = player2;
     }
 }
 

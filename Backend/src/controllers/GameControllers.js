@@ -4,8 +4,8 @@ import { generateRandomId } from "../utils/utils.js";
 
 async function createGame(req, res) {
   const id = generateRandomId();
-  const game = new Game(id);
-  Game.create(game)
+  const game = new Game({ id });
+  Game.create(game);
   res.status(200).json({
     message: "Game created",
     id: game.id,
@@ -15,26 +15,24 @@ async function createGame(req, res) {
 async function joinGame(req, res) {
   try {
     const { name, color } = req.body;
-    if(!name || !color){
+    if (!name || !color) {
       res.status(400).json({ message: "Name and color are required" });
-    }
-    else {
-      const player = new Player(name, color);
+    } else {
+      const playerId = generateRandomId();
+      const player = new Player(playerId, name, color, 0);
       const game = req.game;
       game.joinGame(player);
-      game.startGame();
       await game.save();
       res.status(200).json({
         message: "Player added to the game",
-        id: game.id,
-        player: player.id,
+        gameId: game.id,
+        playerId: player.id,
       });
     }
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 }
-
 
 async function listGames(req, res) {
   const games = await db.getGames();
@@ -52,18 +50,21 @@ function getGameById(req, res) {
 
 async function rollDice(req, res) {
   const { game } = req;
-  let data = game.rollDice();
+  game.rollDice();
+  await game.save();
+  res.status(200).json({
+    message: "Dice rolled",
+    diceNumber: game.diceNumber,
+  });
+}
+
+async function answerQuestion(req, res) {
+  const { game } = req;
+  const optionIndex = req.body.optionIndex;
+  let data = game.answerQuestion(optionIndex);
   await game.save();
   res.status(200).json(data);
 }
-
-function answerQuestion(req, res) {
-  const { game } = req;
-  const answerIndex = req.body.answerIndex;
-  let data = game.answerQuestion(answerIndex);
-  res.status(200).json(data);
-}
-
 
 function getPlayerStatus(req, res) {
   const { game } = req;
@@ -72,4 +73,12 @@ function getPlayerStatus(req, res) {
   res.status(200).json(data);
 }
 
-export default { createGame, getGameById, listGames, rollDice, answerQuestion, joinGame, getPlayerStatus };
+export default {
+  createGame,
+  getGameById,
+  listGames,
+  rollDice,
+  answerQuestion,
+  joinGame,
+  getPlayerStatus,
+};

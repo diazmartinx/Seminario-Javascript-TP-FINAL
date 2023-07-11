@@ -28,6 +28,7 @@ class Game {
     diceNumber,
     lastQuestion,
     questions,
+    winner,
   }) {
     this.id = id;
     this.status = status || GAMESTATUS.LOBBY;
@@ -48,6 +49,8 @@ class Game {
     this.diceNumber = diceNumber || 0;
 
     this.lastQuestion = lastQuestion || null;
+
+    this.winner = winner || null;
 
     if (questions) {
       this.questions = questions.map((question) => {
@@ -112,6 +115,7 @@ class Game {
 
   rollDice() {
     this.diceNumber = Math.floor(Math.random() * 6) + 1;
+    this._getRandomQuestion();
   }
 
   _getRandomQuestion() {
@@ -139,8 +143,10 @@ class Game {
     const player = this._getPlayerById(this.playerIdTurn);
     console.log(player);
     player.move(this.diceNumber);
-    if (player.position >= this.board.size) {
+    if (player.position >= this.board.totalCells) {
       this.status = GAMESTATUS.FINISHED;
+      this.winner = player.name;
+      this.questions = null;
     } else {
       this._changeTurn();
     }
@@ -172,7 +178,7 @@ class Game {
       diceNumber: this.diceNumber,
       board: this.board,
       isMyTurn: this.playerIdTurn == playerId,
-      actualQuestion: this.askedQuestions[this.askedQuestions.length - 1],
+      lastQuestion: this.lastQuestion,
     };
     return data;
   }

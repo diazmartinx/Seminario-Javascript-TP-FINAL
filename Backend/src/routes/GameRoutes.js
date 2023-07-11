@@ -1,5 +1,5 @@
 import { Router } from "express";
-import gameController from "../controllers/gameControllers.js";
+import gameController from "../controllers/GameControllers.js";
 import getGameMiddleware from "../middlewares/getGameMiddleware.js";
 import isPlayerTurnMiddleware from "../middlewares/isPlayerTurnMiddleware.js";
 

@@ -34,11 +34,6 @@ async function joinGame(req, res) {
   }
 }
 
-async function listGames(req, res) {
-  const games = await db.getGames();
-  res.status(200).json(games);
-}
-
 function getGameById(req, res) {
   res.status(200).json(req.game);
 }

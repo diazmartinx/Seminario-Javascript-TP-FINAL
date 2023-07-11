@@ -1,19 +1,28 @@
 <script lang="ts">
-    import { page } from '$app/stores';
+    import Lobby from '$lib/components/Lobby.svelte';
+    import Game from '$lib/components/Game.svelte';
     import type { PageData } from './$types';
+    import { invalidateAll } from '$app/navigation';
+    import { browser } from '$app/environment';
 
     export let data: PageData;
+    let { game } = data;
 
-    const gameId = $page.params.id;
+    // poll for changes every 2 seconds
+    if (browser) {
+    setInterval(async () => {
+            invalidateAll();
+            game = data.game; // update the game
+    }, 3000);
+}
+
 </script>
 
-{#if data.lobby > 0}
-    <h1>esto es el lobby con id: {data.lobby}</h1>
-{:else}
-    <h1>
-        No se encontro el lobby con id: {gameId}
-    </h1>
-    <button class="btn variant-filled-primary">
-        <a href="/">Volver al inicio</a>
-    </button>
-{/if}
+
+
+    {#if game.status=="LOBBY"}
+        <Lobby {game}/>
+    {:else}
+        <Game {game}/>
+    {/if}
+

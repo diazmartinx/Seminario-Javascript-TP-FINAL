@@ -1,19 +1,13 @@
-import { generateRandomId } from "../utils/utils.js";
-
 class Player {
-  constructor(name, color) {
-    this.id = generateRandomId();
+  constructor(id, name, color, position=0) {
+    this.id = id;
     this.name = name;
     this.color = color;
+    this.position = position
   }
 
-  move(numberOfCells,board) {
-    if(this.color === "red"){
-      board.player1Position += numberOfCells;
-    }
-    else {
-      board.player2Position += numberOfCells;
-    }
+  move(number) {
+    this.position += number;
   }
 }
 

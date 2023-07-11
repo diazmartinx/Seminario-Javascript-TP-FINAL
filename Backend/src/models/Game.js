@@ -10,20 +10,36 @@ const questions = JSON.parse(
 
 import dbClient from "../data/db.js";
 
-const GAMESTATUS =  {
-  LOBBY: 'LOBBY',
-  STARTED: 'STARTED',
-}
+const GAMESTATUS = {
+  LOBBY: "LOBBY",
+  STARTED: "STARTED",
+  FINISHED: "FINISHED",
+};
 
 class Game {
-  constructor({id, status, player1, player2, board, turn, playerIdTurn, diceNumber, askedQuestions, questions}) {
+  constructor({
+    id,
+    status,
+    player1,
+    player2,
+    board,
+    turn,
+    playerIdTurn,
+    diceNumber,
+    lastQuestion,
+    questions,
+  }) {
     this.id = id;
-    this.status = status  || GAMESTATUS.LOBBY;
-    
-    this.player1 =  player1 ? new Player(player1.name,player1.color) : null;
-    this.player2 =  player2 ? new Player(player2.name,player2.color) : null;
+    this.status = status || GAMESTATUS.LOBBY;
 
-    this.board =  board ? new Board(board.size, board.player1Position, board.player2Position) : null;
+    this.player1 = player1
+      ? new Player(player1.id, player1.name, player1.color, player1.position)
+      : null;
+    this.player2 = player2
+      ? new Player(player2.id, player2.name, player2.color, player2.position)
+      : null;
+
+    this.board = board ? new Board(board.totalCells, player1, player2) : null;
 
     this.turn = turn || 0;
 
@@ -31,29 +47,33 @@ class Game {
 
     this.diceNumber = diceNumber || 0;
 
-    this.askedQuestions = askedQuestions || [];
+    this.lastQuestion = lastQuestion || null;
 
-    this.questions = questions.map((question) => {
-      return new Question(
-        question.id,
-        question.question,
-        question.options,
-        question.answer
-      );
-    });
+    if (questions) {
+      this.questions = questions.map((question) => {
+        return new Question(
+          question.id,
+          question.question,
+          question.options,
+          question.answer
+        );
+      });
+    } else {
+      this.questions = [];
+    }
   }
 
-  static async getGameById(id){
+  static async getGameById(id) {
     const game = await dbClient.getGameById(id);
     return new Game(game);
   }
 
-  static async create(game){
+  static async create(game) {
     await dbClient.createGame(game);
     return game;
   }
 
-  async save(){
+  async save() {
     await dbClient.updateGame(this);
   }
 
@@ -70,39 +90,40 @@ class Game {
       }
       if (this.player1 && this.player2) {
         this.status = GAMESTATUS.STARTED;
-    }
+        this._startGame();
+      }
     }
   }
 
-  startGame() {
-    this.board = new Board(this.questions.length, 0, 0);
+  _startGame() {
     this.turn = 1;
     this.playerIdTurn = this.player1.id;
     this.diceNumber = 0;
-    this.askedQuestions = [];
+    this.questions = questions.map((question) => {
+      return new Question(
+        question.id,
+        question.question,
+        question.options,
+        question.answer
+      );
+    });
+    this.board = new Board(this.questions.length, this.player1, this.player2);
   }
-
 
   rollDice() {
     this.diceNumber = Math.floor(Math.random() * 6) + 1;
-    const data = {
-      diceNumber: this.diceNumber,
-      question: this._getRandomQuestion(),
-    };
-
-    return data;
   }
 
   _getRandomQuestion() {
     const randomIndex = Math.floor(Math.random() * this.questions.length);
     const question = this.questions[randomIndex];
-    this.askedQuestions.push(question);
+    this.lastQuestion = question;
     this.questions.splice(randomIndex, 1);
     return question;
   }
 
   answerQuestion(answerIndex) {
-    const question = this.askedQuestions[this.askedQuestions.length - 1];
+    const question = this.lastQuestion;
     const isCorrect = question.answer == answerIndex;
 
     if (isCorrect) {
@@ -116,6 +137,7 @@ class Game {
 
   _movePlayer() {
     const player = this._getPlayerById(this.playerIdTurn);
+    console.log(player);
     player.move(this.diceNumber);
     if (player.position >= this.board.size) {
       this.status = GAMESTATUS.FINISHED;
@@ -123,12 +145,12 @@ class Game {
       this._changeTurn();
     }
   }
-  
 
   _changeTurn() {
     this.turn++;
     // if turn is even, it's player 2 turn, otherwise it's player 1 turn
     this.playerIdTurn = this.turn % 2 == 0 ? this.player2.id : this.player1.id;
+    this.lastQuestion = null;
   }
 
   _getPlayerById(playerId) {
@@ -144,6 +166,7 @@ class Game {
   getPlayerStatus(playerId) {
     const player = this._getPlayerById(playerId);
     const data = {
+      status: this.status,
       player,
       turn: this.turn,
       diceNumber: this.diceNumber,
@@ -152,8 +175,7 @@ class Game {
       actualQuestion: this.askedQuestions[this.askedQuestions.length - 1],
     };
     return data;
-  }    
+  }
 }
 
 export default Game;
-

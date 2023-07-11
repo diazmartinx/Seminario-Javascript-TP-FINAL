@@ -1,4 +1,3 @@
-import { db } from "../data/db.js";
 import Game from "../models/Game.js";
 
 async function getGameMiddleware(req, res, next) {
@@ -7,9 +6,7 @@ async function getGameMiddleware(req, res, next) {
 
   if (!game) {
     res.status(404).json({ message: "Game not found" });
-  }
-  
-  else {
+  } else {
     req.game = game;
     next();
   }

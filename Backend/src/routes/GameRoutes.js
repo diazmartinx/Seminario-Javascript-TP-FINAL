@@ -1,5 +1,5 @@
 import { Router } from "express";
-import gameController from "../controllers/GameControllers.js";
+import gameController from "../controllers/gameControllers.js";
 import getGameMiddleware from "../middlewares/getGameMiddleware.js";
 import isPlayerTurnMiddleware from "../middlewares/isPlayerTurnMiddleware.js";
 
@@ -15,7 +15,6 @@ game.use("/:id/:playerId", isPlayerTurnMiddleware);
 //create game
 game.post("/", gameController.createGame);
 
-
 //join game
 game.post("/:id/join", gameController.joinGame);
 
@@ -25,13 +24,12 @@ game.get("/:id", gameController.getGameById);
 //list games
 game.get("/", gameController.listGames);
 
-
 // PLAYER MOVES -------------------------------------------
 //roll dice and get random question
 
 game.get("/:id/status/:playerId", gameController.getPlayerStatus);
 
-game.get("/:id/:playerId/roll", gameController.rollDice);
+game.post("/:id/:playerId/roll", gameController.rollDice);
 
 //answer question
 game.post("/:id/:playerId/answer", gameController.answerQuestion);

@@ -50,7 +50,7 @@ function getGameById(req, res) {
 
 async function rollDice(req, res) {
   const { game } = req;
-  if (!game.lastQuestion){
+  if (!game.lastQuestion) {
     res.status(400).json({ message: "You must answer a question first" });
   }
   game.rollDice();

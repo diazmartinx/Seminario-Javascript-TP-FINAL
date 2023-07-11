@@ -10,7 +10,7 @@ import errorMiddleware from "./middlewares/errorMiddleware.js";
 // Cargar variables de entorno desde el archivo .env
 dotenv.config();
 const corsOptions = {
-  origin: "https://seminario-javascript-tp-final.vercel.app",
+  origin: "*",
   credentials: true,
 };
 // Configurar la aplicación Express

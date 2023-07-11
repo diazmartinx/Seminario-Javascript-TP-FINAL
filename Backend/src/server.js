@@ -4,7 +4,7 @@ import helmet from "helmet";
 import dotenv from "dotenv";
 import cors from "cors";
 import config from "./config.js";
-import game from "./routes/gameRoutes.js";
+import game from "./routes/GameRoutes.js";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
 
 // Cargar variables de entorno desde el archivo .env

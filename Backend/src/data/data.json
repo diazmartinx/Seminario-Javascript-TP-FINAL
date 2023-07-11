@@ -243,6 +243,246 @@
       },
       "winner": "jowo",
       "questions": null
+    },
+    {
+      "id": "sccumn",
+      "status": "LOBBY",
+      "player1": null,
+      "player2": null,
+      "board": null,
+      "turn": 0,
+      "playerIdTurn": null,
+      "diceNumber": 0,
+      "lastQuestion": null,
+      "winner": null,
+      "questions": []
+    },
+    {
+      "id": "si2g7v",
+      "status": "STARTED",
+      "player1": {
+        "id": "tx06ke",
+        "name": "Carniceria",
+        "color": "#000000",
+        "position": 5
+      },
+      "player2": {
+        "id": "rpt9ff",
+        "name": "martin0798",
+        "color": "#000000",
+        "position": 0
+      },
+      "board": {
+        "totalCells": 20,
+        "player1": {
+          "id": "tx06ke",
+          "name": "Carniceria",
+          "color": "#000000",
+          "position": 5
+        },
+        "player2": {
+          "id": "rpt9ff",
+          "name": "martin0798",
+          "color": "#000000",
+          "position": 0
+        }
+      },
+      "turn": 2,
+      "playerIdTurn": "rpt9ff",
+      "diceNumber": 1,
+      "lastQuestion": {
+        "id": 13,
+        "question": "¿Cuál es la diferencia entre == y === en JavaScript?",
+        "options": [
+          "El operador == compara solo el valor, mientras que === compara tanto el valor como el tipo de dato.",
+          "El operador == compara tanto el valor como el tipo de dato, mientras que === compara solo el valor.",
+          "No hay diferencia, ambos operadores realizan la misma comparación."
+        ],
+        "answer": 0
+      },
+      "winner": null,
+      "questions": [
+        {
+          "id": 1,
+          "question": "¿Qué es JavaScript?",
+          "options": [
+            "Un lenguaje de programación",
+            "Un editor de texto",
+            "Un sistema operativo"
+          ],
+          "answer": 0
+        },
+        {
+          "id": 2,
+          "question": "¿Cuál de las siguientes opciones es un tipo de dato primitivo en JavaScript?",
+          "options": [
+            "Número",
+            "Objeto",
+            "Función"
+          ],
+          "answer": 0
+        },
+        {
+          "id": 3,
+          "question": "¿Cuál es la forma correcta de declarar una variable en JavaScript?",
+          "options": [
+            "let x = 5;",
+            "int x = 5;",
+            "variable x = 5;"
+          ],
+          "answer": 0
+        },
+        {
+          "id": 5,
+          "question": "¿Qué método se utiliza para agregar un elemento al final de un array en JavaScript?",
+          "options": [
+            "push()",
+            "pop()",
+            "concat()"
+          ],
+          "answer": 0
+        },
+        {
+          "id": 6,
+          "question": "¿Qué función se utiliza para imprimir algo en la consola en JavaScript?",
+          "options": [
+            "console.log()",
+            "print()",
+            "alert()"
+          ],
+          "answer": 0
+        },
+        {
+          "id": 7,
+          "question": "¿Cuál es el resultado de la expresión '3' + 2 en JavaScript?",
+          "options": [
+            "'32'",
+            "5",
+            "'5'"
+          ],
+          "answer": 0
+        },
+        {
+          "id": 8,
+          "question": "¿Cuál es el método utilizado para obtener la longitud de una cadena en JavaScript?",
+          "options": [
+            "length",
+            "size",
+            "length()"
+          ],
+          "answer": 0
+        },
+        {
+          "id": 9,
+          "question": "¿Cuál es el operador utilizado para concatenar dos cadenas en JavaScript?",
+          "options": [
+            "+",
+            "-",
+            "*"
+          ],
+          "answer": 0
+        },
+        {
+          "id": 10,
+          "question": "¿Cuál de las siguientes opciones es un bucle en JavaScript?",
+          "options": [
+            "if-else",
+            "while",
+            "switch"
+          ],
+          "answer": 1
+        },
+        {
+          "id": 11,
+          "question": "¿Cuál es el resultado de la expresión 5 > 3 && 2 < 4 en JavaScript?",
+          "options": [
+            "true",
+            "false",
+            "SyntaxError"
+          ],
+          "answer": 0
+        },
+        {
+          "id": 12,
+          "question": "¿Cuál es la forma correcta de comentar una línea en JavaScript?",
+          "options": [
+            "// Este es un comentario de una línea",
+            "/* Este es un comentario de una línea */",
+            "/* Este es un comentario de múltiples líneas */"
+          ],
+          "answer": 0
+        },
+        {
+          "id": 14,
+          "question": "¿Cuál de las siguientes opciones es un método para convertir una cadena a minúsculas en JavaScript?",
+          "options": [
+            "toUpperCase()",
+            "toLowerCase()",
+            "convertToLowercase()"
+          ],
+          "answer": 1
+        },
+        {
+          "id": 15,
+          "question": "¿Cuál es el resultado de la expresión typeof null en JavaScript?",
+          "options": [
+            "'object'",
+            "'null'",
+            "'undefined'"
+          ],
+          "answer": 0
+        },
+        {
+          "id": 16,
+          "question": "¿Cuál es el operador utilizado para obtener el residuo de la división en JavaScript?",
+          "options": [
+            "%",
+            "/",
+            "*"
+          ],
+          "answer": 0
+        },
+        {
+          "id": 17,
+          "question": "¿Cuál de las siguientes opciones es un método para redondear un número hacia abajo en JavaScript?",
+          "options": [
+            "round()",
+            "floor()",
+            "ceil()"
+          ],
+          "answer": 1
+        },
+        {
+          "id": 18,
+          "question": "¿Cuál de las siguientes opciones es un método para convertir un número a una cadena en JavaScript?",
+          "options": [
+            "toNumber()",
+            "toString()",
+            "parse()"
+          ],
+          "answer": 1
+        },
+        {
+          "id": 19,
+          "question": "¿Cuál de las siguientes opciones es una forma válida de crear un objeto en JavaScript?",
+          "options": [
+            "new Object()",
+            "{}",
+            "Object.create()"
+          ],
+          "answer": 1
+        },
+        {
+          "id": 20,
+          "question": "¿Cuál es el resultado de la expresión '5' == 5 en JavaScript?",
+          "options": [
+            "true",
+            "false",
+            "SyntaxError"
+          ],
+          "answer": 0
+        }
+      ]
     }
   ]
 }

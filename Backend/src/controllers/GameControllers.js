@@ -45,7 +45,7 @@ function getGameById(req, res) {
 
 async function rollDice(req, res) {
   const { game } = req;
-  if (!game.lastQuestion) {
+  if (game.lastQuestion != null) {
     res.status(400).json({ message: "You must answer a question first" });
   }
   game.rollDice();
@@ -74,7 +74,6 @@ function getPlayerStatus(req, res) {
 export default {
   createGame,
   getGameById,
-  listGames,
   rollDice,
   answerQuestion,
   joinGame,

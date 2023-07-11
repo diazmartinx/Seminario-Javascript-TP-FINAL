@@ -11,9 +11,9 @@
 
 {#each Array(totalCells) as _, i}
     {#if i==player1.position}
-        <Cell playerName="Player 1" playerColor="red"/>
+        <Cell playerName={player1.name} playerColor={player1.color}/>
     {:else if i==player2.position}
-        <Cell playerName="Player 2" playerColor="blue"/>
+        <Cell playerName={player2.name} playerColor={player2.color}/>
     {:else}
         <Cell/>
     {/if}

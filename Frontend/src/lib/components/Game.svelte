@@ -28,15 +28,15 @@
     }
 
 </script>
-
+<h1>{player.name}</h1>
 {#if isMyTurn}
-    <h1>Es tu turno</h1>
+    <span>Es tu turno</span>
 {:else}
-    <h1>Esperando al otro jugador</h1>
+    <span>Esperando al otro jugador</span>
 {/if}
 <Dice number={game.diceNumber}/>
 
-<button class="btn variant-filled-primary" disabled={!isMyTurn}
+<button class="btn variant-filled-primary" disabled={!isMyTurn || game.lastQuestion}
 on:click={rollDice}
 >{isMyTurn ? 'TIRAR DADO' : 'Esperando'}</button>
 
@@ -44,7 +44,7 @@ on:click={rollDice}
     <h2>Ultima pregunta: {game.lastQuestion.question}</h2>
     <ul>
         {#each game.lastQuestion.options as option, i}
-            <li><button
+            <li><button disabled={!isMyTurn}
             on:click={() => answerQuestion(i)}
                 class="btn variant-outline-secondary">{option}</button></li>
         {/each}

@@ -1,13 +1,9 @@
-import Board from "./Board.js";
 import Player from "./Player.js";
+import Board from "./Board.js";
 import Question from "./Question.js";
-import fs from "fs";
+import QuestionManager from "../data/QuestionManager.js";
+import GameRepository from "../data/GameRepository.js";
 
-const questions = JSON.parse(
-  fs.readFileSync("./src/data/questions.json", "utf8")
-);
-
-import dbClient from "../data/db.js";
 
 const GAMESTATUS = {
   LOBBY: "LOBBY",
@@ -49,34 +45,16 @@ class Game {
 
     this.lastQuestion = lastQuestion || null;
 
-    this.winner = winner || null;
-
-    if (questions) {
-      this.questions = questions.map((question) => {
-        return new Question(
-          question.id,
-          question.question,
-          question.options,
-          question.answer
-        );
-      });
-    } else {
-      this.questions = [];
-    }
+    this.questions = new QuestionManager();
   }
 
   static async getGameById(id) {
-    const game = await dbClient.getGameById(id);
-    return new Game(game);
-  }
-
-  static async create(game) {
-    await dbClient.createGame(game);
-    return game;
+    const gameData = await GameRepository.getGameById(id);
+    return new Game(gameData);
   }
 
   async save() {
-    await dbClient.updateGame(this);
+    await GameRepository.updateGame(this);
   }
 
   joinGame(player) {
@@ -140,7 +118,6 @@ class Game {
 
   _movePlayer() {
     const player = this._getPlayerById(this.playerIdTurn);
-    console.log(player);
     player.move(this.diceNumber);
     if (player.position >= this.board.totalCells) {
       this.status = GAMESTATUS.FINISHED;

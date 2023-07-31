@@ -93,12 +93,9 @@ class Game {
   _getRandomQuestion() {
     try{
       this.lastQuestion = this.questions.getRandomQuestion();
-
     }
-
     catch(error){
       this.status = GAMESTATUS.OUTOFQUESTIONS;
-      this.winner = null;
       this.questions = null;
     }
   }

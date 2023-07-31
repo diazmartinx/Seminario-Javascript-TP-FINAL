@@ -37,6 +37,8 @@
     <h1>El juego ha terminado</h1>
     <h2>¡{game.winner} fue el ganador!</h2>
 
+{:else if game.status=="OUTOFQUESTIONS"}
+<h1>Nos quedamos sin preguntas, ningun jugador gana</h1>
 {:else}
     <Game {game}/>
 {/if}

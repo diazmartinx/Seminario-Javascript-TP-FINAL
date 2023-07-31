@@ -137,6 +137,24 @@
           "answer": 0
         }
       ]
+    },
+    {
+      "id": "bd89fk",
+      "status": "LOBBY",
+      "player1": {
+        "id": "54az0r",
+        "name": "jowo",
+        "color": "#e00000",
+        "position": 0
+      },
+      "player2": null,
+      "board": null,
+      "turn": 0,
+      "playerIdTurn": null,
+      "diceNumber": 0,
+      "lastQuestion": null,
+      "winner": null,
+      "questions": []
     }
   ]
 }

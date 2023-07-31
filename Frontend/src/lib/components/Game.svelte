@@ -28,20 +28,22 @@
     }
 
 </script>
-<h1>{player.name}</h1>
-{#if isMyTurn}
-    <span>Es tu turno</span>
-{:else}
-    <span>Esperando al otro jugador</span>
-{/if}
-<Dice number={game.diceNumber}/>
 
-<button class="btn variant-filled-primary" disabled={!isMyTurn || game.lastQuestion}
-on:click={rollDice}
->{isMyTurn ? 'TIRAR DADO' : 'Esperando'}</button>
 
-{#if game.lastQuestion}
-    <h2>Ultima pregunta: {game.lastQuestion.question}</h2>
+
+
+
+<section class="grid grid-cols-[1fr_2fr_1fr] gap-5 items-center mb-10">
+
+    <div>
+        <Dice number={game.diceNumber}/>
+    </div>
+    
+
+    <div class="flex justify-center">
+        {#if game.lastQuestion}
+<div class="border">
+    <h3 class="h3">{game.lastQuestion.question}</h3>
     <ul>
         {#each game.lastQuestion.options as option, i}
             <li><button disabled={!isMyTurn}
@@ -49,7 +51,25 @@ on:click={rollDice}
                 class="btn variant-outline-secondary">{option}</button></li>
         {/each}
     </ul>
+</div>
+    
+{:else}
+<button class="btn variant-filled-primary" disabled={!isMyTurn || game.lastQuestion}
+on:click={rollDice}
+>{isMyTurn ? 'TIRAR DADO' : 'Esperando'}</button>
 {/if}
+    </div>
+
+    <div>
+        {#if isMyTurn}
+    <p>¡<strong>{player.name}</strong> es tu turno!</p>
+{:else}
+    <p>Esperando al otro jugador</p>
+{/if}
+    </div>
+
+</section>
+
 
 <Board {...game.board}/>
 

@@ -30,17 +30,12 @@ class GameService {
     return { message: "Player added to the game", gameId: game.id, playerId: player.id };
   }
 
-  static async listGames() {
-    const games = await GameRepository.getAllGames();
-    return games;
-  }
-
   static async getGameById(id) {
     const game = await GameRepository.getGameById(id);
     if (!game) {
       throw new Error("Game not found");
     }
-    return game;
+    return game.getGameStatus();
   }
 
   static async rollDice(game) {

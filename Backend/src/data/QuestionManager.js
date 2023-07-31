@@ -4,13 +4,19 @@ import fs from "fs";
 const QUESTIONS_DB_PATH = "./src/data/questions.json";
 
 class QuestionManager {
-  constructor() {
+  constructor(questions) {
     this.questions = [];
-    this.loadQuestions();
+    this.loadQuestions(questions);
   }
 
-  loadQuestions() {
+  loadQuestions(questions) {
     try {
+      if(questions) {
+        this.questions = questions.map(
+          (question) => new Question(question.id, question.question, question.options, question.answer)
+        );
+        return;
+      } 
       const data = fs.readFileSync(QUESTIONS_DB_PATH, "utf8");
       const questions = JSON.parse(data);
       this.questions = questions.map(

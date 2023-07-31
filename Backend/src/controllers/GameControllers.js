@@ -22,15 +22,6 @@ async function joinGame(req, res) {
   }
 }
 
-async function listGames(req, res) {
-  try {
-    const games = await GameService.listGames();
-    res.status(200).json(games);
-  } catch (error) {
-    res.status(500).json({ message: "An error occurred while fetching games." });
-  }
-}
-
 async function getGameById(req, res) {
   try {
     const { gameId } = req.params;
@@ -79,7 +70,6 @@ async function getPlayerStatus(req, res) {
 export default {
   createGame: asyncHandler(createGame),
   getGameById: asyncHandler(getGameById),
-  listGames: asyncHandler(listGames),
   rollDice: asyncHandler(rollDice),
   answerQuestion: asyncHandler(answerQuestion),
   joinGame: asyncHandler(joinGame),

@@ -1,6 +1,5 @@
 import Player from "./Player.js";
 import Board from "./Board.js";
-import Question from "./Question.js";
 import QuestionManager from "../data/QuestionManager.js";
 import GameRepository from "../data/GameRepository.js";
 
@@ -9,6 +8,7 @@ const GAMESTATUS = {
   LOBBY: "LOBBY",
   STARTED: "STARTED",
   FINISHED: "FINISHED",
+  OUTOFQUESTIONS: "OUTOFQUESTIONS",
 };
 
 class Game {
@@ -45,7 +45,9 @@ class Game {
 
     this.lastQuestion = lastQuestion || null;
 
-    this.questions = new QuestionManager();
+    this.winner = winner || null;
+
+    this.questions = new QuestionManager(questions);
   }
 
   static async getGameById(id) {
@@ -79,14 +81,7 @@ class Game {
     this.turn = 1;
     this.playerIdTurn = this.player1.id;
     this.diceNumber = 0;
-    this.questions = questions.map((question) => {
-      return new Question(
-        question.id,
-        question.question,
-        question.options,
-        question.answer
-      );
-    });
+    this.questions = new QuestionManager();
     this.board = new Board(this.questions.length, this.player1, this.player2);
   }
 
@@ -96,11 +91,16 @@ class Game {
   }
 
   _getRandomQuestion() {
-    const randomIndex = Math.floor(Math.random() * this.questions.length);
-    const question = this.questions[randomIndex];
-    this.lastQuestion = question;
-    this.questions.splice(randomIndex, 1);
-    return question;
+    try{
+      this.lastQuestion = this.questions.getRandomQuestion();
+
+    }
+
+    catch(error){
+      this.status = GAMESTATUS.OUTOFQUESTIONS;
+      this.winner = null;
+      this.questions = null;
+    }
   }
 
   answerQuestion(answerIndex) {
@@ -155,6 +155,21 @@ class Game {
       board: this.board,
       isMyTurn: this.playerIdTurn == playerId,
       lastQuestion: this.lastQuestion,
+    };
+    return data;
+  }
+
+  getGameStatus() {
+    const data = {
+      status: this.status,
+      player1: this.player1.getDetails(),
+      player2: this.player2.getDetails(),
+      turn: this.turn,
+      diceNumber: this.diceNumber,
+      board: this.board,
+      playerIdTurn: this.playerIdTurn,
+      lastQuestion: this.lastQuestion,
+      winner: this.winner,
     };
     return data;
   }

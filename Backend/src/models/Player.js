@@ -9,6 +9,14 @@ class Player {
   move(number) {
     this.position += number;
   }
+
+  getDetails() {
+    return {
+      name: this.name,
+      color: this.color,
+      position: this.position,
+    };
+  }
 }
 
 export default Player;

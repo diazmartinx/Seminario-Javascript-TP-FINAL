@@ -1,5 +1,5 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
-import GameService from "../services/GameService.js";
+import GameService from "../services/gameService.js";
 
 async function createGame(req, res) {
   try {

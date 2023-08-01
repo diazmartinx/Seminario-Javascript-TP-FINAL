@@ -30,14 +30,18 @@
 </script>
 
 
-
+<main class="p-2">
     {#if game.status=="LOBBY"}
-        <Lobby {game}/>
-    {:else if game.status=="FINISHED"}
-        <h1>El juego ha terminado</h1>
-        <h2>¡{game.winner} fue el ganador!</h2>
+    <Lobby {game}/>
+{:else if game.status=="FINISHED"}
+    <h1>El juego ha terminado</h1>
+    <h2>¡{game.winner} fue el ganador!</h2>
 
-    {:else}
-        <Game {game}/>
-    {/if}
+{:else if game.status=="OUTOFQUESTIONS"}
+<h1>Nos quedamos sin preguntas, ningun jugador gana</h1>
+{:else}
+    <Game {game}/>
+{/if}
+</main>
+    
 

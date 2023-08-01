@@ -1,18 +1,14 @@
-import Board from "./Board.js";
 import Player from "./Player.js";
+import Board from "./Board.js";
+import QuestionManager from "../data/QuestionManager.js";
+import GameRepository from "../data/GameRepository.js";
 import Question from "./Question.js";
-import fs from "fs";
-
-const questions = JSON.parse(
-  fs.readFileSync("./src/data/questions.json", "utf8")
-);
-
-import dbClient from "../data/db.js";
 
 const GAMESTATUS = {
   LOBBY: "LOBBY",
   STARTED: "STARTED",
   FINISHED: "FINISHED",
+  OUTOFQUESTIONS: "OUTOFQUESTIONS",
 };
 
 class Game {
@@ -47,36 +43,26 @@ class Game {
 
     this.diceNumber = diceNumber || 0;
 
-    this.lastQuestion = lastQuestion || null;
+    this.lastQuestion =
+      new Question(
+        lastQuestion.id,
+        lastQuestion.question,
+        lastQuestion.options,
+        lastQuestion.answer
+      ) || null;
 
     this.winner = winner || null;
 
-    if (questions) {
-      this.questions = questions.map((question) => {
-        return new Question(
-          question.id,
-          question.question,
-          question.options,
-          question.answer
-        );
-      });
-    } else {
-      this.questions = [];
-    }
+    this.questions = new QuestionManager(questions);
   }
 
   static async getGameById(id) {
-    const game = await dbClient.getGameById(id);
-    return new Game(game);
-  }
-
-  static async create(game) {
-    await dbClient.createGame(game);
-    return game;
+    const gameData = await GameRepository.getGameById(id);
+    return new Game(gameData);
   }
 
   async save() {
-    await dbClient.updateGame(this);
+    await GameRepository.updateGame(this);
   }
 
   joinGame(player) {
@@ -101,14 +87,7 @@ class Game {
     this.turn = 1;
     this.playerIdTurn = this.player1.id;
     this.diceNumber = 0;
-    this.questions = questions.map((question) => {
-      return new Question(
-        question.id,
-        question.question,
-        question.options,
-        question.answer
-      );
-    });
+    this.questions = new QuestionManager();
     this.board = new Board(this.questions.length, this.player1, this.player2);
   }
 
@@ -118,11 +97,12 @@ class Game {
   }
 
   _getRandomQuestion() {
-    const randomIndex = Math.floor(Math.random() * this.questions.length);
-    const question = this.questions[randomIndex];
-    this.lastQuestion = question;
-    this.questions.splice(randomIndex, 1);
-    return question;
+    try {
+      this.lastQuestion = this.questions.getRandomQuestion();
+    } catch (error) {
+      this.status = GAMESTATUS.OUTOFQUESTIONS;
+      this.questions = [];
+    }
   }
 
   answerQuestion(answerIndex) {
@@ -140,12 +120,11 @@ class Game {
 
   _movePlayer() {
     const player = this._getPlayerById(this.playerIdTurn);
-    console.log(player);
     player.move(this.diceNumber);
     if (player.position >= this.board.totalCells) {
       this.status = GAMESTATUS.FINISHED;
       this.winner = player.name;
-      this.questions = null;
+      this.questions = [];
     } else {
       this._changeTurn();
     }
@@ -168,16 +147,17 @@ class Game {
     }
   }
 
-  getPlayerStatus(playerId) {
-    const player = this._getPlayerById(playerId);
+  getGameStatus(playerId) {
     const data = {
+      id: this.id,
       status: this.status,
-      player,
+      player1: this.player1?.getDetails() || null,
+      player2: this.player2?.getDetails() || null,
       turn: this.turn,
       diceNumber: this.diceNumber,
-      board: this.board,
+      lastQuestion: this.lastQuestion.getDetails(),
+      winner: this.winner,
       isMyTurn: this.playerIdTurn == playerId,
-      lastQuestion: this.lastQuestion,
     };
     return data;
   }

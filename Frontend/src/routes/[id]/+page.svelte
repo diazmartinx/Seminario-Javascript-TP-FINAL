@@ -14,7 +14,7 @@
             if (!browser) return;
             invalidateAll();
             game = data.game; // update the game
-    }, 1000);
+    }, 2000);
 
     //stop polling when status is finished
     if (game.status == "FINISHED") {
@@ -29,6 +29,7 @@
 
 </script>
 
+
 <main class="p-2">
     {#if game.status=="LOBBY"}
     <Lobby {game}/>
@@ -39,8 +40,11 @@
 {:else if game.status=="OUTOFQUESTIONS"}
 <h1>Nos quedamos sin preguntas, ningun jugador gana</h1>
 {:else}
+{#key game}
     <Game {game} player={data.player}/>
+    {/key}
 {/if}
 </main>
+
     
 

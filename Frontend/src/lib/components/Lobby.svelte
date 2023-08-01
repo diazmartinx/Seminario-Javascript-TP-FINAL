@@ -27,7 +27,6 @@
 
 </script>
 
-{JSON.stringify(game)}
 
 {#if playerActive!=null}
     <h1>{playerActive.name} Ya estas en la partida !</h1>

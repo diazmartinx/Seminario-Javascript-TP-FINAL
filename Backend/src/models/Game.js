@@ -3,6 +3,11 @@ import Board from "./Board.js";
 import QuestionManager from "../data/QuestionManager.js";
 import GameRepository from "../data/GameRepository.js";
 import Question from "./Question.js";
+import fs from "fs";
+
+const questions = JSON.parse(
+  fs.readFileSync("./src/data/questions.json", "utf8")
+);
 
 const GAMESTATUS = {
   LOBBY: "LOBBY",
@@ -43,17 +48,31 @@ class Game {
 
     this.diceNumber = diceNumber || 0;
 
-    this.lastQuestion =
-      new Question(
-        lastQuestion?.id,
-        lastQuestion?.question,
-        lastQuestion?.options,
-        lastQuestion?.answer
-      ) || null;
+    if (lastQuestion) {
+      this.lastQuestion = new Question(
+        lastQuestion.id,
+        lastQuestion.question,
+        lastQuestion.options,
+        lastQuestion.answer
+      );
+    } else {
+      this.lastQuestion = null;
+    }
 
     this.winner = winner || null;
 
-    this.questions = new QuestionManager(questions);
+    if (questions) {
+      this.questions = questions.map((question) => {
+        return new Question(
+          question.id,
+          question.question,
+          question.options,
+          question.answer
+        );
+      });
+    } else {
+      this.questions = [];
+    }
   }
 
   static async getGameById(id) {
@@ -87,7 +106,14 @@ class Game {
     this.turn = 1;
     this.playerIdTurn = this.player1.id;
     this.diceNumber = 0;
-    this.questions = new QuestionManager();
+    this.questions = questions.map((question) => {
+      return new Question(
+        question.id,
+        question.question,
+        question.options,
+        question.answer
+      );
+    });
     this.board = new Board(this.questions.length, this.player1, this.player2);
   }
 
@@ -97,12 +123,15 @@ class Game {
   }
 
   _getRandomQuestion() {
-    try {
-      this.lastQuestion = this.questions.getRandomQuestion();
-    } catch (error) {
+    if (this.questions.length == 0) {
       this.status = GAMESTATUS.OUTOFQUESTIONS;
-      this.questions = [];
+      return null;
     }
+    const randomIndex = Math.floor(Math.random() * this.questions.length);
+    const question = this.questions[randomIndex];
+    this.lastQuestion = question;
+    this.questions.splice(randomIndex, 1);
+    return question;
   }
 
   answerQuestion(answerIndex) {
@@ -155,7 +184,7 @@ class Game {
       player2: this.player2?.getDetails() || null,
       turn: this.turn,
       diceNumber: this.diceNumber,
-      lastQuestion: this.lastQuestion=={} ? this.lastQuestion.getDetails() : null,
+      lastQuestion: this.lastQuestion?.getDetails() || null,
       winner: this.winner,
       isMyTurn: this.playerIdTurn == playerId,
     };

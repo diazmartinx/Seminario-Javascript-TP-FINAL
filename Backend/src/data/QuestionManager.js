@@ -5,12 +5,11 @@ const QUESTIONS_DB_PATH = "./src/data/questions.json";
 
 class QuestionManager {
   constructor(_questions) {
-    this.questions = [];
     if (!_questions) {
-      this.loadQuestions();
+      this.questions = null;
       return;
     }
-    this.questions = _questions.questions.map(
+    this.questions = _questions.map(
       (q) => new Question(q.id, q.question, q.options, q.answer)
     );
   }
@@ -26,6 +25,10 @@ class QuestionManager {
     } catch (error) {
       console.error("Error loading questions:", error);
     }
+  }
+
+  getQuestions() {
+    return this.questions;
   }
 
   getRandomQuestion() {

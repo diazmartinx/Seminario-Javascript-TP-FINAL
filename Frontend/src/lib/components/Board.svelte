@@ -29,7 +29,11 @@
             {:else if i==player2.position}
             <Cell {i} playerName={player2.name} playerColor={player2.color}/>
             {/if}
-
+    {:else if i==player1.position && i==player2.position}
+        <div>
+            <Cell {i} playerName={player1.name} playerColor={player1.color}/>
+            <Cell {i} playerName={player2.name} playerColor={player2.color}/>
+        </div>
     {:else if i==player1.position}
         <Cell {i} playerName={player1.name} playerColor={player1.color}/>
     {:else if i==player2.position}

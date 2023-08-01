@@ -14,7 +14,7 @@
             if (!browser) return;
             invalidateAll();
             game = data.game; // update the game
-    }, 2000);
+    }, 1000);
 
     //stop polling when status is finished
     if (game.status == "FINISHED") {

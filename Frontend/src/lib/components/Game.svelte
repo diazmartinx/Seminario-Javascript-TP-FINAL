@@ -7,7 +7,7 @@
     export let game;
     let player = $playerStore[game.id]
     let playerId = player.playerId;
-    $: isMyTurn = playerId == game.playerIdTurn;
+    $: isMyTurn = game.isMyTurn;
 
     function rollDice(){
         fetch(`${PUBLIC_API_URL}game/${game.id}/${playerId}/roll`, {
@@ -51,5 +51,5 @@ on:click={rollDice}
     </ul>
 {/if}
 
-<Board {...game.board}/>
+<Board player1={game.player1} player2={game.player2}/>
 

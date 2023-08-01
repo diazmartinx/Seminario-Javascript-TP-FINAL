@@ -1,12 +1,13 @@
 import fs from "fs/promises";
 import path from "path";
+import Question from "../models/Question.js";
 
-const GAMES_DB_PATH =  path.join(process.cwd(), "src/data/data.json");
+const GAMES_DB_PATH = path.join(process.cwd(), "src/data/data.json");
 
 class GameRepository {
   static async getGameById(id) {
     const games = await GameRepository._loadGamesFromDB();
-    return games.find((game) => game.id === id);
+    return games.find((game) => game.id == id);
   }
 
   static async createGame(game) {
@@ -26,8 +27,9 @@ class GameRepository {
 
   static async _loadGamesFromDB() {
     try {
-      const data = await fs.promises.readFile(GAMES_DB_PATH, "utf8");
-      return JSON.parse(data);
+      const data = await fs.readFile(GAMES_DB_PATH, "utf8");
+      const jsonData = JSON.parse(data);
+      return jsonData;
     } catch (error) {
       console.error("Error reading games database:", error);
       return [];
@@ -36,7 +38,7 @@ class GameRepository {
 
   static async _saveGamesToDB(games) {
     try {
-      await fs.promises.writeFile(GAMES_DB_PATH, JSON.stringify(games, null, 2));
+      await fs.writeFile(GAMES_DB_PATH, JSON.stringify(games, null, 2));
     } catch (error) {
       console.error("Error writing games to database:", error);
     }

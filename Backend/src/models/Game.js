@@ -2,7 +2,7 @@ import Player from "./Player.js";
 import Board from "./Board.js";
 import QuestionManager from "../data/QuestionManager.js";
 import GameRepository from "../data/GameRepository.js";
-
+import Question from "./Question.js";
 
 const GAMESTATUS = {
   LOBBY: "LOBBY",
@@ -43,7 +43,13 @@ class Game {
 
     this.diceNumber = diceNumber || 0;
 
-    this.lastQuestion = lastQuestion || null;
+    this.lastQuestion =
+      new Question(
+        lastQuestion.id,
+        lastQuestion.question,
+        lastQuestion.options,
+        lastQuestion.answer
+      ) || null;
 
     this.winner = winner || null;
 
@@ -91,12 +97,11 @@ class Game {
   }
 
   _getRandomQuestion() {
-    try{
+    try {
       this.lastQuestion = this.questions.getRandomQuestion();
-    }
-    catch(error){
+    } catch (error) {
       this.status = GAMESTATUS.OUTOFQUESTIONS;
-      this.questions = null;
+      this.questions = [];
     }
   }
 
@@ -119,7 +124,7 @@ class Game {
     if (player.position >= this.board.totalCells) {
       this.status = GAMESTATUS.FINISHED;
       this.winner = player.name;
-      this.questions = null;
+      this.questions = [];
     } else {
       this._changeTurn();
     }
@@ -142,31 +147,17 @@ class Game {
     }
   }
 
-  getPlayerStatus(playerId) {
-    const player = this._getPlayerById(playerId);
+  getGameStatus(playerId) {
     const data = {
+      id: this.id,
       status: this.status,
-      player,
+      player1: this.player1?.getDetails() || null,
+      player2: this.player2?.getDetails() || null,
       turn: this.turn,
       diceNumber: this.diceNumber,
-      board: this.board,
-      isMyTurn: this.playerIdTurn == playerId,
-      lastQuestion: this.lastQuestion,
-    };
-    return data;
-  }
-
-  getGameStatus() {
-    const data = {
-      status: this.status,
-      player1: this.player1.getDetails(),
-      player2: this.player2.getDetails(),
-      turn: this.turn,
-      diceNumber: this.diceNumber,
-      board: this.board,
-      playerIdTurn: this.playerIdTurn,
-      lastQuestion: this.lastQuestion,
+      lastQuestion: this.lastQuestion.getDetails(),
       winner: this.winner,
+      isMyTurn: this.playerIdTurn == playerId,
     };
     return data;
   }

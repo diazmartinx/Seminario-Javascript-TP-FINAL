@@ -11,7 +11,7 @@ class GameService {
     return { message: "Game created", id: game.id };
   }
 
-  static async joinGame(name, color, gameId) {
+  static async joinGame(game, name, color) {
     if (!name || !color) {
       throw new Error("Name and color are required");
     }
@@ -19,15 +19,20 @@ class GameService {
     const playerId = generateRandomId();
     const player = new Player(playerId, name, color, 0);
 
-    const game = await GameRepository.getGameById(gameId);
+    console.log("player", player);
+    console.log("game", game);
     if (!game) {
-      throw new Error("Game not found");
+      throw new Error("Game not found here");
     }
 
     game.joinGame(player);
     await game.save();
 
-    return { message: "Player added to the game", gameId: game.id, playerId: player.id };
+    return {
+      message: "Player added to the game",
+      gameId: game.id,
+      playerId: player.id,
+    };
   }
 
   static async getGameById(id) {
@@ -47,11 +52,6 @@ class GameService {
   static async answerQuestion(game, optionIndex) {
     const data = game.answerQuestion(optionIndex);
     await game.save();
-    return data;
-  }
-
-  static getPlayerStatus(game, playerId) {
-    const data = game.getPlayerStatus(playerId);
     return data;
   }
 }

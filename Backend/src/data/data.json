@@ -1,4 +1,124 @@
-{
-  "games": [
-  ]
-}
+[
+  {
+    "id": "a0pt3b",
+    "status": "OUTOFQUESTIONS",
+    "player1": {
+      "id": "ly92ei",
+      "name": "asd",
+      "color": "#000000",
+      "position": 0
+    },
+    "player2": {
+      "id": "z1oh97",
+      "name": "wachin",
+      "color": "#c81414",
+      "position": 0
+    },
+    "board": {
+      "totalCells": 20,
+      "player1": {
+        "id": "ly92ei",
+        "name": "asd",
+        "color": "#000000",
+        "position": 0
+      },
+      "player2": {
+        "id": "z1oh97",
+        "name": "wachin",
+        "color": "#c81414",
+        "position": 0
+      }
+    },
+    "turn": 1,
+    "playerIdTurn": "ly92ei",
+    "diceNumber": 2,
+    "lastQuestion": null,
+    "winner": null,
+    "questions": null
+  },
+  {
+    "id": "bata84",
+    "status": "STARTED",
+    "player1": {
+      "id": "8v50bh",
+      "name": "asd",
+      "color": "#000000",
+      "position": 22
+    },
+    "player2": {
+      "id": "adp7i0",
+      "name": "fox-cobra",
+      "color": "#dda2a2",
+      "position": 12
+    },
+    "board": {
+      "player1": {
+        "id": "8v50bh",
+        "name": "asd",
+        "color": "#000000",
+        "position": 19
+      },
+      "player2": {
+        "id": "adp7i0",
+        "name": "fox-cobra",
+        "color": "#dda2a2",
+        "position": 12
+      }
+    },
+    "turn": 14,
+    "playerIdTurn": "adp7i0",
+    "diceNumber": 3,
+    "lastQuestion": null,
+    "winner": null,
+    "questions": {
+      "questions": [
+        {
+          "id": 2,
+          "question": "¿Cuál de las siguientes opciones es un tipo de dato primitivo en JavaScript?",
+          "options": ["Número", "Objeto", "Función"],
+          "answer": 0
+        },
+        {
+          "id": 3,
+          "question": "¿Cuál es la forma correcta de declarar una variable en JavaScript?",
+          "options": ["let x = 5;", "int x = 5;", "variable x = 5;"],
+          "answer": 0
+        },
+        {
+          "id": 4,
+          "question": "¿Cuál es el operador de igualdad estricta en JavaScript?",
+          "options": ["===", "==", "="],
+          "answer": 0
+        },
+        {
+          "id": 5,
+          "question": "¿Qué método se utiliza para agregar un elemento al final de un array en JavaScript?",
+          "options": ["push()", "pop()", "concat()"],
+          "answer": 0
+        },
+        {
+          "id": 8,
+          "question": "¿Cuál es el método utilizado para obtener la longitud de una cadena en JavaScript?",
+          "options": ["length", "size", "length()"],
+          "answer": 0
+        },
+        {
+          "id": 13,
+          "question": "¿Cuál es la diferencia entre == y === en JavaScript?",
+          "options": [
+            "El operador == compara solo el valor, mientras que === compara tanto el valor como el tipo de dato.",
+            "El operador == compara tanto el valor como el tipo de dato, mientras que === compara solo el valor.",
+            "No hay diferencia, ambos operadores realizan la misma comparación."
+          ],
+          "answer": 0
+        },
+        {
+          "id": 15,
+          "question": "¿Cuál es el resultado de la expresión typeof null en JavaScript?",
+          "options": ["'object'", "'null'", "'undefined'"],
+          "answer": 0
+        }
+      ]
+    }
+  }
+]

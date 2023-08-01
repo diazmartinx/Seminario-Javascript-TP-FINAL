@@ -21,11 +21,8 @@ game.post("/:id/join", gameController.joinGame);
 //get game by id
 game.get("/:id", gameController.getGameById);
 
-
 // PLAYER MOVES -------------------------------------------
 //roll dice and get random question
-
-game.get("/:id/status/:playerId", gameController.getPlayerStatus);
 
 game.post("/:id/:playerId/roll", gameController.rollDice);
 

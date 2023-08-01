@@ -10,12 +10,11 @@ export const load = (async ({ fetch, params }) => {
 	const localStorage = get(playerStore);
 	const player = localStorage[id];
 
-
 	if (player != undefined) {
-		console.log(player.playerId)
+		console.log(player.playerId);
 	}
 
-	const URL = PUBLIC_API_URL + 'game/' + id;
+	const URL = PUBLIC_API_URL + 'game/' + id + '?playerId=' + player.playerId;
 	const game = await fetch(URL).then((response) => response.json());
 
 	return {

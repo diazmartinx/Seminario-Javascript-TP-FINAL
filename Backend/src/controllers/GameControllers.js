@@ -1,4 +1,3 @@
-
 import asyncHandler from "../middlewares/asyncHandler.js";
 import GameService from "../services/GameService.js";
 
@@ -14,8 +13,7 @@ async function createGame(req, res) {
 async function joinGame(req, res) {
   try {
     const { name, color } = req.body;
-    const { gameId } = req.params;
-    const response = await GameService.joinGame(name, color, gameId);
+    const response = await GameService.joinGame(req.game, name, color);
     res.status(200).json(response);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -24,8 +22,8 @@ async function joinGame(req, res) {
 
 async function getGameById(req, res) {
   try {
-    const { gameId } = req.params;
-    const game = await GameService.getGameById(gameId);
+    const { playerId } = req.query;
+    const game = req.game.getGameStatus(playerId);
     res.status(200).json(game);
   } catch (error) {
     res.status(404).json({ message: error.message });

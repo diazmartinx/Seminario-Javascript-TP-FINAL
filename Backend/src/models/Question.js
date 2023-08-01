@@ -5,6 +5,13 @@ class Question {
     this.options = options;
     this.answer = answer;
   }
+
+  getDetails() {
+    return {
+      question: this.question,
+      options: this.options,
+    };
+  }
 }
 
 export default Question;

@@ -1,6 +1,5 @@
 import fs from "fs/promises";
 import path from "path";
-import Question from "../models/Question.js";
 
 const GAMES_DB_PATH = path.join(process.cwd(), "src/data/data.json");
 
@@ -29,6 +28,7 @@ class GameRepository {
     try {
       const data = await fs.readFile(GAMES_DB_PATH, "utf8");
       const jsonData = JSON.parse(data);
+      console.log("jsonData", jsonData);
       return jsonData;
     } catch (error) {
       console.error("Error reading games database:", error);

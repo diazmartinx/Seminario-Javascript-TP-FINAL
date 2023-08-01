@@ -29,7 +29,6 @@
 
 </script>
 
-
 <main class="p-2">
     {#if game.status=="LOBBY"}
     <Lobby {game}/>
@@ -40,7 +39,7 @@
 {:else if game.status=="OUTOFQUESTIONS"}
 <h1>Nos quedamos sin preguntas, ningun jugador gana</h1>
 {:else}
-    <Game {game}/>
+    <Game {game} player={data.player}/>
 {/if}
 </main>
     

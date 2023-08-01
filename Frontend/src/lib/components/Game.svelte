@@ -2,12 +2,34 @@
     import { PUBLIC_API_URL } from "$env/static/public";
     import Board from "./Board.svelte";
     import Dice from "./Dice.svelte";
-    import { playerStore } from "$lib/stores/playerStore";
 
-    export let game;
-    let player = $playerStore[game.id]
+    export let game: {
+        id: string;
+        status: string;
+        diceNumber: number;
+        isMyTurn: boolean;
+        lastQuestion: {
+            question: string;
+            options: string[];
+        };
+        player1: {
+            name: string;
+            position: number;
+            color: string;
+        };
+        player2: {
+            name: string;
+            position: number;
+            color: string;
+        };
+    };
+    export let player: {
+        playerId: string;
+        name: string;
+    };
+    console.log(player)
     let playerId = player.playerId;
-    $: isMyTurn = game.isMyTurn;
+    let isMyTurn = game.isMyTurn;
 
     function rollDice(){
         fetch(`${PUBLIC_API_URL}game/${game.id}/${playerId}/roll`, {
@@ -15,7 +37,7 @@
         })
     }
 
-    function answerQuestion(option){
+    function answerQuestion(option: number){
         fetch(`${PUBLIC_API_URL}game/${game.id}/${playerId}/answer`, {
             method: 'POST',
             headers: {

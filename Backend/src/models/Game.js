@@ -45,10 +45,10 @@ class Game {
 
     this.lastQuestion =
       new Question(
-        lastQuestion.id,
-        lastQuestion.question,
-        lastQuestion.options,
-        lastQuestion.answer
+        lastQuestion?.id,
+        lastQuestion?.question,
+        lastQuestion?.options,
+        lastQuestion?.answer
       ) || null;
 
     this.winner = winner || null;
@@ -155,7 +155,7 @@ class Game {
       player2: this.player2?.getDetails() || null,
       turn: this.turn,
       diceNumber: this.diceNumber,
-      lastQuestion: this.lastQuestion.getDetails(),
+      lastQuestion: this.lastQuestion=={} ? this.lastQuestion.getDetails() : null,
       winner: this.winner,
       isMyTurn: this.playerIdTurn == playerId,
     };
